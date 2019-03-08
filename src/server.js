@@ -17,6 +17,10 @@ app.get('/index.html',function(req,res){
     res.sendFile(__dirname+'/index.html');
 });
 
+app.get('/asset/circle.png',function(req,res){
+    res.sendFile(__dirname+'/asset/circle.png');
+});
+
 app.get('/snake.css',function(req,res){
     res.sendFile(__dirname+'/css/snake.css');
 });

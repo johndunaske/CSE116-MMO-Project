@@ -5,13 +5,12 @@
 
     <script src="/socket.io/socket.io.js"></script>
     <script type="text/javascript" src="js/main.js"></script>
+        <script src="myCode.js"></script>
     <title>
         SNAKE
     </title>
 </head>
 <body>
-  <a src="/index.html">y</a>
-
 <h1>
 Welcome to SNAKE BATTLE GROUND !!!
 </h1>
@@ -28,12 +27,13 @@ Welcome to SNAKE BATTLE GROUND !!!
 
     <!--}-->
 
-    <input [type=text]:focus name="fname" placeholder = "Username" border="3px solid #555"><br>
+    <input [type=text]:focus name="fname" placeholder = "Username" border="3px solid #555" id="userID"><br>
 <!-- <a href="index.html" class="next">Start the Game &raquo;</a> -->
 </form>
 
 <br/>
-<!-- <button type="button" formaction="/index.html">Let's Battle</button> -->
+<button type="button" onClick = "addUUID();">Create my User ID</button>
+
 <a href="index.html">Start the game</a>
 
 </body>
