@@ -10,7 +10,16 @@ app.use('/js',express.static(__dirname + '/js'));
 app.use('/assets',express.static(__dirname + '/assets'));
 
 app.get('/',function(req,res){
-    res.sendFile(__dirname+'/index.html');
+    res.sendFile(__dirname+'/snake.html');
+});
+
+app.get('/snake.css',function(req,res){
+    res.sendFile(__dirname+'/css/snake.css');
+});
+
+
+app.get('/snake-background-21.jpg',function(req,res){
+    res.sendFile(__dirname+'/css/snake-background-21.jpg');
 });
 
 io.on('connection',function(socket){
