@@ -13,9 +13,14 @@ app.get('/',function(req,res){
     res.sendFile(__dirname+'/snake.html');
 });
 
+app.get('/index.html',function(req,res){
+    res.sendFile(__dirname+'/index.html');
+});
+
 app.get('/snake.css',function(req,res){
     res.sendFile(__dirname+'/css/snake.css');
 });
+
 
 
 app.get('/snake-background-21.jpg',function(req,res){
