@@ -24,7 +24,8 @@ function init() {
 }
 
 function preload() {
-this.load.image('ship', 'assets/circle.png');}
+this.load.image('ship', 'assets/circle.png');
+}
 
 function create() {
   var self = this;
@@ -46,15 +47,6 @@ function create() {
     numPlayers--;
   });
 
-
-    var circle = this.game.add.sprite(0, 0, "circle");
-  this.game.physics.p2.enable(circle, false);
-  //give circle sprite a circular physics body with the proper radius
-  circle.body.setCircle(circle.width*0.5);
-  //scale the circle up
-  circle.scale.setTo(2);
-  //scale up the circle's P2 physics body with the proper radius
-  circle.body.data.shapes[0].radius = this.game.physics.p2.pxm(circle.width*0)
 }
 
 function update() {
