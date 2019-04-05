@@ -1,10 +1,11 @@
-// Initialize the Phaser Game object and set default game window size
+//https://photonstorm.github.io/phaser-ce/Phaser.Physics.Arcade.html#toc-1
+//set default game window size
 const game = new Phaser.Game(1920, 1080, Phaser.AUTO, '', {
   preload: preload,
   create: create,
   update: update })
 
-// Declare shared variables at the top so all methods can access them
+// Shared Variable
 let score = 0
 let scoreText
 let food
