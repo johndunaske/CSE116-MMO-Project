@@ -45,7 +45,7 @@ function create () {
   }
 
     //  create scoreboard
-  scoreText = game.add.text(16, 16, '', { fontSize: '32px', fill: '#238' })
+  scoreText = game.add.text(16, 16, 'Score:0', { fontSize: '32px', fill: '#238' })
 
     //  Enable arrowkeys
   cursors = game.input.keyboard.createCursorKeys()
@@ -55,7 +55,7 @@ function create () {
 function update () {
 
     //  Call callectionfood() if player overlaps with food ball
-  game.physics.arcade.overlap(player, food, collectfood, null, this)
+  game.physics.arcade.overlap(player, food, collectfood)
 
     // controls
   if (cursors.left.isDown) 
