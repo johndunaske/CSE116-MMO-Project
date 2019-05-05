@@ -14,9 +14,7 @@ Game.prototype = {
 
 
     create: function() {
-    //we're accessing the parameter game from the Game function
-    // var width = this.game.width;
-    // var height = this.game.height;
+
 
     this.game.world.setBounds(-this.game.width, -this.game.height, this.game.width * 2, this.game.height * 2);
     this.game.stage.backgroundColor = '#444';
