@@ -32,10 +32,5 @@ function create(){
   //this line is required because it's referring to snake variable above, which is a new a player.
   this.game.camera.follow(snake.head);
 }
-function update() {
-    //update game components
-    for (var i = this.game.snakes.length - 1 ; i >= 0 ; i--) {
-        this.game.snakes[i].update();
-    }
-}
+
 }
