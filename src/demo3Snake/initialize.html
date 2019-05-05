@@ -4,21 +4,22 @@
 <!--  all the scripts will be here like snake and stuff -->
 <meta charset="utf-8" />
    <title>Slither.io Clone Part 2 - Loonride Example</title>
-   <script src="src/demo3Snake/phaser.min.js"></script>
-   <script src="src/demo3Snake/game.js"></script>
-   <script src="src/demo3Snake/snake.js"></script>
-   <script src="src/demo3Snake/util.js"></script>
+   <script src="/demo3Snake/phaser.min.js"></script>
+   <script src="/demo3Snake/game.js"></script>
+   <script src="/demo3Snake/snake.js"></script>
+   <script src="/demo3Snake/util.js"></script>
 </head>
 <body>
 
 <!--The game is initised from the html file here.    -->
-<script>(function() {
-    var game = new Phaser.Game(800, 500, Phaser.AUTO, null);
+<script>
+    (function() {
+        var game = new Phaser.Game(800, 500, Phaser.AUTO, null);
 
-    game.state.add('Game', Game);
-    game.state.start('Game');
-})();</script>
-
+        game.state.add('Game', Game);
+        game.state.start('Game');
+    })();
+    </script>
 </body>
 
 
