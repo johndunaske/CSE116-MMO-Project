@@ -1,6 +1,4 @@
-Game = function(game) {
-  this.snakes = []
-}
+Game = function(game) {}
 
 Game.prototype = {
     preload: function() {
@@ -22,9 +20,9 @@ Game.prototype = {
         this.game.world.setBounds(-this.game.width, -this.game.height, this.game.width*2, this.game.height*2);
     	this.game.stage.backgroundColor = '#444';
 
-      //add tilesprite background
-      //we're repeating tiles again and again to make a background. NOTE: Remove the background variable if not needed.        var background = this.game.add.tileSprite(-this.game.width, -this.game.height,
-        var background = this.game.world.width, this.game.world.height, 'background');
+        //add tilesprite background
+        var background = this.game.add.tileSprite(-this.game.width, -this.game.height,
+            this.game.world.width, this.game.world.height, 'background');
 
         //initialize physics and groups
         this.game.physics.startSystem(Phaser.Physics.P2JS);
@@ -36,8 +34,6 @@ Game.prototype = {
         for (var i = 0 ; i < 100 ; i++) {
             this.initFood(Util.randomInt(-this.game.width, this.game.width), Util.randomInt(-this.game.height, this.game.height));
         }
-
-        //NOTE: we might remove this line because we're already using it in the Game function
 
         this.game.snakes = [];
 
