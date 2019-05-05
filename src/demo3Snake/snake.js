@@ -12,7 +12,7 @@ Snake = function(game, spriteKey, x, y) {
         this.game.snakes = [];
     }
     this.game.snakes.push(this);
-    this.debug = false;
+    // this.debug = false;
     this.snakeLength = 0;
     this.spriteKey = spriteKey;
 
@@ -31,8 +31,10 @@ Snake = function(game, spriteKey, x, y) {
     this.headPath = [];
     this.food = [];
 
-    this.preferredDistance = 17 * this.scale;
+    this.preferredDistance = 5 * this.scale;
     this.queuedSections = 0;
+
+
 
     this.sectionGroup = this.game.add.group();
     //add the head of the snake
@@ -43,6 +45,23 @@ Snake = function(game, spriteKey, x, y) {
     this.lastHeadPosition = new Phaser.Point(this.head.body.x, this.head.body.y);
     //add 30 sections behind the head
     this.initSections(30);
+
+
+    //the edge is the front body that can collide with other snakes
+    //it is locked to the head of this snake
+    this.edgeOffset = 4;
+    this.edge = this.game.add.sprite(x, y - this.edgeOffset, this.spriteKey);
+    this.edge.name = "edge";
+    this.edge.alpha = 0;
+    this.game.physics.p2.enable(this.edge, this.debug);
+    this.edge.body.setCircle(this.edgeOffset);
+
+    //constrain edge to the front of the head
+    this.edgeLock = this.game.physics.p2.createLockConstraint(
+        this.edge.body, this.head.body, [0, -this.head.width*0.5-this.edgeOffset]
+    );
+
+    this.edge.body.onBeginContact.add(this.edgeContact, this);
 
     this.onDestroyedCallbacks = [];
     this.onDestroyedContexts = [];
@@ -165,6 +184,7 @@ Snake.prototype = {
             this.lastHeadPosition = new Phaser.Point(this.head.body.x, this.head.body.y);
             this.onCycleComplete();
         }
+
     },
     /**
      * Find in the headPath array which point the next section of the snake
@@ -227,13 +247,18 @@ Snake.prototype = {
         this.scale = scale;
         this.preferredDistance = 17 * this.scale;
 
+        //update edge lock location with p2 physics
+        this.edgeLock.localOffsetB = [
+            0, this.game.physics.p2.pxmi(this.head.width*0.5+this.edgeOffset)
+        ];
+
         //scale sections and their bodies
         for (var i = 0 ; i < this.sections.length ; i++) {
             var sec = this.sections[i];
             sec.scale.setTo(this.scale);
             sec.body.data.shapes[0].radius = this.game.physics.p2.pxm(sec.width*0.5);
         }
-    },
+},
     /**
      * Increment length and scale
      */
@@ -246,9 +271,18 @@ Snake.prototype = {
      */
     destroy: function() {
         this.game.snakes.splice(this.game.snakes.indexOf(this), 1);
+        //remove constraints
+        this.game.physics.p2.removeConstraint(this.edgeLock);
+        this.edge.destroy();
+        //destroy food that is constrained to the snake head
+        for (var i = this.food.length - 1 ; i >= 0 ; i--) {
+            this.food[i].destroy();
+        }
+        //destroy everything else
         this.sections.forEach(function(sec, index) {
             sec.destroy();
         });
+
 
         //call this snake's destruction callbacks
         for (var i = 0 ; i < this.onDestroyedCallbacks.length ; i++) {
@@ -256,6 +290,23 @@ Snake.prototype = {
                 this.onDestroyedCallbacks[i].apply(
                     this.onDestroyedContexts[i], [this]);
             }
+        }
+    },
+    /**
+     * Called when the front of the snake (the edge) hits something
+     * @param  {Phaser.Physics.P2.Body} phaserBody body it hit
+     */
+    edgeContact: function(phaserBody) {
+        //if the edge hits another snake's section, destroy this snake
+        if (phaserBody && this.sections.indexOf(phaserBody.sprite) == -1) {
+            this.destroy();
+        }
+        //if the edge hits this snake's own section, a simple solution to avoid
+        //glitches is to move the edge to the center of the head, where it
+        //will then move back to the front because of the lock constraint
+        else if (phaserBody) {
+            this.edge.body.x = this.head.body.x;
+            this.edge.body.y = this.head.body.y;
         }
     },
     /**
