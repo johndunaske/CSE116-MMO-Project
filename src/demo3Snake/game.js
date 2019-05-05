@@ -6,13 +6,12 @@ Game.prototype = {
     preload: function() {
 
         //load assets
-        //load assets
-        this.game.load.image('circle','assets/circle.png');
+        this.game.load.image('circle','asset/circle.png');
 
-    	this.game.load.image('background', 'assets/tile.png');
+    	this.game.load.image('background', 'asset/tile.png');
 
 
-        this.game.load.image('food', 'assets/hex.png');
+        this.game.load.image('food', 'asset/hex.png');
     },
     create: function() {
 
