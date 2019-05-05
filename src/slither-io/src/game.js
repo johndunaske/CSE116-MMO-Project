@@ -24,7 +24,7 @@ Game.prototype = {
 
       //add tilesprite background
       //we're repeating tiles again and again to make a background. NOTE: Remove the background variable if not needed.        var background = this.game.add.tileSprite(-this.game.width, -this.game.height,
-            this.game.world.width, this.game.world.height, 'background');
+        var background = this.game.world.width, this.game.world.height, 'background');
 
         //initialize physics and groups
         this.game.physics.startSystem(Phaser.Physics.P2JS);
