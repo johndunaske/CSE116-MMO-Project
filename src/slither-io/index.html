@@ -3,21 +3,26 @@
 <head>
     <meta charset="utf-8" />
     <title>Slither.io Clone - Loonride Example</title>
+    <script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
     <script src="lib/phaser.min.js"></script>
     <script src="src/game.js"></script>
     <script src="src/snake.js"></script>
+    <script src="src/snake2.js"></script>
+    <script src="src/client.js"></script>
     <script src="src/playerSnake.js"></script>
+    <script src="src/otherSnake.js"></script>
     <script src="src/food.js"></script>
     <script src="src/util.js"></script>
 </head>
 <body>
     <script>
-    (function() {
-        var game = new Phaser.Game(800, 500, Phaser.AUTO, null);
 
-        game.state.add('Game', Game);
-        game.state.start('Game');
-    })();
+        (function() {
+            var game = new Phaser.Game(800, 500, Phaser.AUTO, null);
+
+            game.state.add('Game', Game);
+            game.state.start('Game');
+        })();
     </script>
 </body>
 </html>

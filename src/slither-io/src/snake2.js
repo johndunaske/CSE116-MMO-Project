@@ -5,17 +5,16 @@
  * @param  {Number} x         coordinate
  * @param  {Number} y         coordinate
  */
-Snake = function(game, spriteKey, x, y, id) {
+Snake2 = function(game, spriteKey, x, y, id) {
     this.game = game;
     //create an array of snakes in the game object and add this snake
     if (!this.game.snakes) {
         this.game.snakes = [];
     }
-    //this.game.snakes.push();
+    this.game.snakes.push();
     this.debug = false;
     this.snakeLength = 0;
     this.spriteKey = spriteKey;
-    this.id = id
 
     //various quantities that can be changed
     this.scale = 0.6;
@@ -67,7 +66,7 @@ Snake = function(game, spriteKey, x, y, id) {
     this.onDestroyedContexts = [];
 }
 
-Snake.prototype = {
+Snake2.prototype = {
     /**
      * Give the snake starting segments
      * @param  {Number} num number of snake sections to create
@@ -174,7 +173,7 @@ Snake.prototype = {
         while (this.headPath[i].x != this.sections[1].body.x &&
         this.headPath[i].y != this.sections[1].body.y) {
             if (this.headPath[i].x == this.lastHeadPosition.x &&
-            this.headPath[i].y == this.lastHeadPosition.y) {
+                this.headPath[i].y == this.lastHeadPosition.y) {
                 found = true;
                 break;
             }
@@ -184,6 +183,7 @@ Snake.prototype = {
             this.lastHeadPosition = new Phaser.Point(this.head.body.x, this.head.body.y);
             this.onCycleComplete();
         }
+
 
     },
     /**
@@ -272,19 +272,7 @@ Snake.prototype = {
      * Destroy the snake
      */
     destroy: function() {
-        //call this snake's destruction callbacks
-        for (var i = 0 ; i < this.onDestroyedCallbacks.length ; i++) {
-            if (typeof this.onDestroyedCallbacks[i] == "function") {
-                this.onDestroyedCallbacks[i].apply(
-                    this.onDestroyedContexts[i], [this]);
-            }
-        }
-
-        for (var i = 0; i < this.game.snakes.length; i++) {
-            if (this.game.snakes[i]["id"] == this.id) {
-                delete this.game.snakes[i];
-            }
-        }
+        this.game.snakes.splice(this.game.snakes.indexOf(this), 1);
         //remove constraints
         this.game.physics.p2.removeConstraint(this.edgeLock);
         this.edge.destroy();
@@ -298,7 +286,13 @@ Snake.prototype = {
         });
 
 
-
+        //call this snake's destruction callbacks
+        for (var i = 0 ; i < this.onDestroyedCallbacks.length ; i++) {
+            if (typeof this.onDestroyedCallbacks[i] == "function") {
+                this.onDestroyedCallbacks[i].apply(
+                    this.onDestroyedContexts[i], [this]);
+            }
+        }
     },
     /**
      * Called when the front of the snake (the edge) hits something
