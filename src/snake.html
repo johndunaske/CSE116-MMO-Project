@@ -1,13 +1,14 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <link rel="stylesheet" type="text/css" href="css/snake.css">
+    <link rel="stylesheet" type="text/css" href="snake.css">
 
-    <script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script type="text/javascript" src="js/main.js"></script>
+        <script src="myCode.js"></script>
     <title>
         SNAKE
     </title>
-
 </head>
 <body>
 <h1>
@@ -26,14 +27,14 @@ Welcome to SNAKE BATTLE GROUND !!!
 
     <!--}-->
 
-    <input [type=text]:focus name="fname" placeholder = "Username" border="3px solid #555" id="userID"/><br/>
-    <input type="button" onClick = "addUUID();">Create my User ID</input>
+    <input [type=text]:focus name="fname" placeholder = "Username" border="3px solid #555" id="userID"><br>
 <!-- <a href="index.html" class="next">Start the Game &raquo;</a> -->
 </form>
 
 <br/>
+<button type="button" onClick = "addUUID();">Create my User ID</button>
 
-<a href="slither-io/index.html">Start the game</a>
+<a href="index.html">Start the game</a>
 
 </body>
 </html>

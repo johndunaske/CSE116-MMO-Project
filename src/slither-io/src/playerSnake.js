@@ -5,8 +5,8 @@
  * @param  {Number} x         coordinate
  * @param  {Number} y         coordinate
  */
-PlayerSnake = function(game, spriteKey, x, y, id) {
-    Snake.call(this, game, spriteKey, x, y, id);
+PlayerSnake = function(game, spriteKey, x, y) {
+    Snake.call(this, game, spriteKey, x, y);
     this.cursors = game.input.keyboard.createCursorKeys();
 
     //handle the space key so that the player's snake can speed up
@@ -26,10 +26,12 @@ PlayerSnake.prototype.constructor = PlayerSnake;
 //make this snake light up and speed up when the space key is down
 PlayerSnake.prototype.spaceKeyDown = function() {
     this.speed = this.fastSpeed;
+    this.shadow.isLightingUp = true;
 }
 //make the snake slow down when the space key is up again
 PlayerSnake.prototype.spaceKeyUp = function() {
     this.speed = this.slowSpeed;
+    this.shadow.isLightingUp = false;
 }
 
 /**
@@ -37,7 +39,7 @@ PlayerSnake.prototype.spaceKeyUp = function() {
  * can control where this snake goes
  */
 PlayerSnake.prototype.tempUpdate = PlayerSnake.prototype.update;
-PlayerSnake.prototype.update = function(x,y) {
+PlayerSnake.prototype.update = function() {
     //find the angle that the head needs to rotate
     //through in order to face the mouse
     var mousePosX = this.game.input.activePointer.worldX;
@@ -70,6 +72,5 @@ PlayerSnake.prototype.update = function(x,y) {
     }
 
     //call the original snake update method
-    Client.moved(this.head.body.x, this.head.body.y, this.id);
     this.tempUpdate();
 }

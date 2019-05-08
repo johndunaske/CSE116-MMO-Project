@@ -5,17 +5,16 @@
  * @param  {Number} x         coordinate
  * @param  {Number} y         coordinate
  */
-Snake = function(game, spriteKey, x, y, id) {
+Snake = function(game, spriteKey, x, y) {
     this.game = game;
     //create an array of snakes in the game object and add this snake
     if (!this.game.snakes) {
         this.game.snakes = [];
     }
-    //this.game.snakes.push();
+    this.game.snakes.push(this);
     this.debug = false;
     this.snakeLength = 0;
     this.spriteKey = spriteKey;
-    this.id = id
 
     //various quantities that can be changed
     this.scale = 0.6;
@@ -272,19 +271,7 @@ Snake.prototype = {
      * Destroy the snake
      */
     destroy: function() {
-        //call this snake's destruction callbacks
-        for (var i = 0 ; i < this.onDestroyedCallbacks.length ; i++) {
-            if (typeof this.onDestroyedCallbacks[i] == "function") {
-                this.onDestroyedCallbacks[i].apply(
-                    this.onDestroyedContexts[i], [this]);
-            }
-        }
-
-        for (var i = 0; i < this.game.snakes.length; i++) {
-            if (this.game.snakes[i]["id"] == this.id) {
-                delete this.game.snakes[i];
-            }
-        }
+        this.game.snakes.splice(this.game.snakes.indexOf(this), 1);
         //remove constraints
         this.game.physics.p2.removeConstraint(this.edgeLock);
         this.edge.destroy();
@@ -298,7 +285,13 @@ Snake.prototype = {
         });
 
 
-
+        //call this snake's destruction callbacks
+        for (var i = 0 ; i < this.onDestroyedCallbacks.length ; i++) {
+            if (typeof this.onDestroyedCallbacks[i] == "function") {
+                this.onDestroyedCallbacks[i].apply(
+                    this.onDestroyedContexts[i], [this]);
+            }
+        }
     },
     /**
      * Called when the front of the snake (the edge) hits something
