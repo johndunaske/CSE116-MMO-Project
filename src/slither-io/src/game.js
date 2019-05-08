@@ -137,7 +137,7 @@ Game = {
         //callback for when a snake is destroyed
         newPlayer.snake.addDestroyedCallback(this.snakeDestroyed, this);
     },
-    
+
     removePlayer: function (data) {
         for (var i = 0; i < this.game.snakes.length - 1; i++) {
             if (this.game.snakes[i].id == data.id) {
