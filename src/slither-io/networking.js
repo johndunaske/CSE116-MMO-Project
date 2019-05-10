@@ -2,8 +2,39 @@ var express = require('express');
 var app = express();
 var server = require('http').createServer(app);
 var io = require('socket.io').listen(server);
+var mongojs = require('mongojs')
+
+var db = mongojs('localhost:27017/account', ['account']);
 
 
+var CheckCredentials = function(data,cb){
+    db.account.find({username:data.username,password:data.password},function(err,res){
+        if(res.length > 0)
+        {
+            cb(true);
+        }
+        else {
+            cb(false);
+        }
+    });
+}
+var DupeUsername = function(data,cb){
+    db.account.find({username:data.username},function(err,res){
+        if(res.length > 0)
+        {
+            cb(true);
+        }
+        else
+            {
+                cb(false);
+        }
+    });
+}
+var SignUp = function(data,cb){
+    db.account.insert({username:data.username,password:data.password},function(){
+        cb();
+    });
+}
 app.get('/',function(req, res) {
     res.sendFile(__dirname + '/index.html');
 });
@@ -20,14 +51,27 @@ io.on('connection',function(socket){ //fired when the client connects
 
 
 
+
     socket.on('signIn',function(data){
-        if(data.username === 'bob'&& data.password ==='asd'){
-            socket.emit('signInResponse',{success:true});
-        }
-        else{
-            socket.emit('signInResponse',{success:false});
-        }
-    })
+        CheckCredentials(data,function(response){
+            if(response){
+                socket.emit('signInResponse',{success:true});
+            } else {
+                socket.emit('signInResponse',{success:false});
+            }
+        });
+    });
+    socket.on('signUp',function(data){
+        DupeUsername(data,function(response){
+            if(response){
+                socket.emit('signUpResponse',{success:false});
+            } else {
+                SignUp(data,function(){
+                    socket.emit('signUpResponse',{success:true});
+                });
+            }
+        });
+    });
 
     socket.on('newPlayer', function (data) {
         console.log('hello');
@@ -61,15 +105,6 @@ io.on('connection',function(socket){ //fired when the client connects
         socket.broadcast.emit("destroyed", newData)
     })
 
-
-    socket.on('disconnect', function() { //fired when the client disconnects
-        // console.log('a user has disconnected');
-        // var xy = {
-        //     x: socket.player.x,
-        //     y: socket.player.y
-        // }
-        io.emit('disconnect', socket.player.id);
-    });
 });
 
 function getAllPlayers() {
