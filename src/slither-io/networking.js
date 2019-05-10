@@ -50,11 +50,9 @@ io.on('connection',function(socket){ //fired when the client connects
     console.log("connected");
 
 
-
-
     socket.on('signIn',function(data){
-        CheckCredentials(data,function(response){
-            if(response){
+        CheckCredentials(data,function(res){
+            if(res){
                 socket.emit('signInResponse',{success:true});
             } else {
                 socket.emit('signInResponse',{success:false});
@@ -62,8 +60,8 @@ io.on('connection',function(socket){ //fired when the client connects
         });
     });
     socket.on('signUp',function(data){
-        DupeUsername(data,function(response){
-            if(response){
+        DupeUsername(data,function(res){
+            if(res){
                 socket.emit('signUpResponse',{success:false});
             } else {
                 SignUp(data,function(){
