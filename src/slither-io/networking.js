@@ -4,13 +4,33 @@ var server = require('http').createServer(app);
 var io = require('socket.io').listen(server);
 
 
+app.get('/',function(req, res) {
+    res.sendFile(__dirname + '/index.html');
+});
+
+app.use('/',express.static(__dirname + '/'));
+
+
 server.lastPlayerID = 0;
+
 
 
 io.on('connection',function(socket){ //fired when the client connects
     console.log("connected");
 
+
+
+    socket.on('signIn',function(data){
+        if(data.username === 'bob'&& data.password ==='asd'){
+            socket.emit('signInResponse',{success:true});
+        }
+        else{
+            socket.emit('signInResponse',{success:false});
+        }
+    })
+
     socket.on('newPlayer', function (data) {
+        console.log('hello');
         socket.player = {
             id: server.lastPlayerID++,
             x: data.x,

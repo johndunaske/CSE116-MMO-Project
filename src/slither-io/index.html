@@ -3,7 +3,48 @@
 <head>
     <meta charset="utf-8" />
     <title>Slither.io Clone - Loonride Example</title>
+    <div id="signDiv">
+        Username: <input id="signDiv-username" type="text"></input><br>
+        Password: <input id="signDiv-password" type="password"></input>
+        <button id="signDiv-signIn">Sign In</button>
+        <button id="signDiv-signUp">Sign Up</button>
+    </div>
     <script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
+    <script>
+        var socket = io();
+    var signDiv = document.getElementById('signDiv');
+    var signDivUsername = document.getElementById('signDiv-username');
+    var signDivSignIn = document.getElementById('signDiv-signIn');
+    var signDivSignUp = document.getElementById('signDiv-signUp');
+    var signDivPassword = document.getElementById('signDiv-password');
+
+    signDivSignIn.onclick = function(){
+    socket.emit('signIn',{username:signDivUsername.value,password:signDivPassword.value});
+        console.log(signDivUsername.value)
+        console.log(signDivPassword.value)
+    }
+
+    signDivSignUp.onclick = function(){
+    socket.emit('signUp',{username:signDivUsername.value,password:signDivPassword.value});
+    }
+    socket.on('signInResponse',function(data){
+    if(data.success){
+        alert("Sign in successul")
+        signDiv.style.display = 'none';
+        gameDiv.style.display = 'inline-block';
+    } else
+    alert("Sign in unsuccessul.");
+    });
+    socket.on('signUpResponse',function(data){
+    if(data.success){
+    alert("Sign up successul.");
+    } else
+    alert("Sign up unsuccessul.");
+    });
+
+    </script>
+
+    <div id="gameDiv" style="display:none;">
     <script src="lib/phaser.min.js"></script>
     <script src="src/game.js"></script>
     <script src="src/snake.js"></script>
@@ -13,6 +54,7 @@
     <script src="src/otherSnake.js"></script>
     <script src="src/food.js"></script>
     <script src="src/util.js"></script>
+    </div>
 </head>
 <body>
     <script>
